@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const studentSchema = new mongoose.Schema({
+const coachSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true
@@ -9,41 +9,11 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  phone: {
-    type: String,
-    required: true,
-    unique:true
-  },
   email: {
     type: String,
-    required: true,
-    unique:true
-  },
-  country: {
-    type: String,
     required: true
   },
-  state: {
-    type: String,
-    required: true
-  },
-  pincode: {
-    type: String,
-    required: true
-  },
-  address: {
-    type: String,
-    required: true
-  },
-  roleOfPlay: {
-    type: String,
-    required: true
-  },
-  highestLevelPlayed: {
-    type: String,
-    required: true
-  },
-  photo: {
+  phone: {
     type: String,
     required: true
   },
@@ -55,12 +25,36 @@ const studentSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  gender: {
+  pastExperience: {
+    type: String,
+    required: true
+  },
+  highestLevelPlayed: {
+    type: String,
+    required: true
+  },
+  country: {
+    type: String,
+    required: true
+  },
+  photo: {
+    type: String,
+    required: true
+  },
+  achievements: {
+    type: String,
+    required: true
+  },
+  roleOfPlay: {
+    type: String,
+    required: true
+  },
+  roleOfCoaching: {
     type: String,
     required: true
   }
 });
 
-const StudentModel = mongoose.model("Student", studentSchema);
+const CoachModel = mongoose.model("Coach", coachSchema);
 
-module.exports = StudentModel;
+module.exports = CoachModel;
