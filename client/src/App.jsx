@@ -1,12 +1,12 @@
 import React from 'react';
-import Student_SignIn from './Components/Student_SignIn';
-import Student_SignUp from './Components/Student_SignUp';
+import Student_SignIn from './Components/StudentSignIn';
+import Student_SignUp from './Components/StudentSignUp';
 
 const App = () => {
   return (
     <div>
-      <Student_SignIn></Student_SignIn>
-      {/* <Student_SignUp></Student_SignUp> */}
+      {/* <Student_SignIn></Student_SignIn> */}
+      <Student_SignUp></Student_SignUp>
     </div>
   );
 }
