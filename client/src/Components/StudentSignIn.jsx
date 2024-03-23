@@ -22,25 +22,13 @@ const Student_SignUp = () => {
         backgroundImage={`url(${blank})`}
         backgroundSize="cover" 
         backgroundPosition="center"
-        height="100vh"
         display="flex"
         justifyContent="center"
         alignItems="center"
         position="relative"
       >
-        <Heading
-          fontSize="4xl"
-          fontFamily="mate sc, serif"
-          zIndex="1"
-          position="absolute"
-          top="0vh"
-          left="40vw"
-          color="white"
-        >
-          Sign in to your account
-        </Heading>
+    
         <Stack
-          minH="100vh"
           direction={{ base: 'column-reverse', md: 'row' }}
           bg="transparent"
           flex="1"
@@ -60,14 +48,23 @@ const Student_SignUp = () => {
                 p={{ base: 5, sm: 10 }}
               >
                 <VStack spacing={4} w="100%">
-                  <FormControl id="Name">
-                    <FormLabel>Name</FormLabel>
-                    <Input rounded="md" type="text" />
+                <Heading
+          fontSize="4xl"
+          fontFamily="mate sc, serif"
+          zIndex="1"
+          
+          // paddingBottom="20vh"
+          left="40vw"
+          color="white"
+         
+        >
+          Sign in to your account
+        </Heading>
+                  <FormControl id="StudentId">
+                    <FormLabel marginTop="5vh">Student ID</FormLabel>
+                    <Input rounded="md" type="number" />
                   </FormControl>
-                  <FormControl id="email">
-                    <FormLabel>Email</FormLabel>
-                    <Input rounded="md" type="email" />
-                  </FormControl>
+                 
                   <FormControl id="password">
                     <FormLabel>Password</FormLabel>
                     <Input rounded="md" type="password" />

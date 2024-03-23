@@ -55,8 +55,8 @@ const Student_SignIn = () => {
         left="0"
         width="100%"
         height="100%"
-        backgroundColor="rgba(255, 255, 255, 0.2)" /* Adjust opacity as needed */
-        backdropFilter="blur(10px)" /* Adjust blur amount as needed */
+        backgroundColor="rgba(255, 255, 255, 0.2)" 
+        backdropFilter="blur(10px)" 
         zIndex="-1"
       ></Box>
     <Container maxW="7xl" p={{ base: 5, md: 10 }} position="relative"
