@@ -94,7 +94,7 @@ function Navigation() {
 
               <Text paddingTop="6vh" fontSize="2xl"  marginLeft="2vw">New User ?</Text>
               
-              <Link to={student?'/StidentSignUp':"/example"}><Button colorScheme="blue" marginTop="6vh" marginLeft="4vw">
+              <Link to={student?'/StudentSignUp':"/example"}><Button colorScheme="blue" marginTop="6vh" marginLeft="4vw">
                  Sigh In
               </Button>
               </Link>
