@@ -94,7 +94,7 @@ function Navigation() {
 
               <Text paddingTop="6vh" fontSize="2xl"  marginLeft="2vw">New User ?</Text>
               
-              <Link to={student?'/StudentSignUp':"/CoachSignUp"}><Button colorScheme="blue" marginTop="6vh" marginLeft="4vw">
+              <Link to={student?'/StudentSignUp':"/CoachSignIn"}><Button colorScheme="blue" marginTop="6vh" marginLeft="4vw">
                  Sigh Up
               </Button>
               </Link>
@@ -103,7 +103,7 @@ function Navigation() {
              <Image src={refer} width='13%' height='13%' paddingTop='5vh'/>
               <Text fontSize="2xl" paddingTop="7vh" marginLeft="2vw" >Old User ?</Text>
               
-              <Link to={student?"/StudetSignIn":"/CoachSignIn"}>
+              <Link to={student?"/StudetSignIn":"/CoachSignUp"}>
               <Button colorScheme="blue"  marginTop="6vh" marginLeft="4.7vw">
                 Sign In
               </Button>
