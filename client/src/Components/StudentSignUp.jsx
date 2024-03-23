@@ -64,9 +64,7 @@ const Student_SignIn = () => {
     >
       <Center>
         <Stack spacing={4}>
-          <Stack align="center">
-            <Heading fontSize="2xl">Sign in to your account</Heading>
-          </Stack>
+         
           <VStack
              as="form"
              marginLeft="45vw"
@@ -81,7 +79,9 @@ const Student_SignIn = () => {
             
           >
             <VStack spacing={4} w="100%">
-              
+            <Stack align="center">
+            <Heading fontSize="2xl" >Create Your New Account</Heading>
+          </Stack>
               <FormControl id="firstName">
                 <FormLabel>First Name</FormLabel>
                 <Input rounded="md" type="text" />
