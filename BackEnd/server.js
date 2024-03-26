@@ -1,11 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv"
+import cors from "cors";
+const app=express()
 
+
+
+import router from './route.js'
 
 dotenv.config()
-
-mongoose.connect(process.env.MONGO_URL)
+app.use(cors());
+app.use(router);
+mongoose.connect("mongodb+srv://mohantheboss1432:mohan01012005@cluster0.prkm0wp.mongodb.net/Capstone")
 .then(()=>{
   console.log('Database connected successfully');
   
@@ -14,9 +20,11 @@ mongoose.connect(process.env.MONGO_URL)
   console.log(error);
   
 })
-const app=express()
-
+app.get("/",(req,res)=>{
+  res.send({message:"Om namah Shivaya"})
+})
 app.listen(3001,()=>{
+  console.log(`http://localhost:3001/`);
   console.log('Server running on port 3001');
   
 })
