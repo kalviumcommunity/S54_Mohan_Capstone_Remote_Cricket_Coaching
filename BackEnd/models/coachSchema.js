@@ -3,58 +3,59 @@ import mongoose from "mongoose";
 const coachSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    // required: true
   },
   lastName: {
     type: String,
-    required: true
+    // required: true
   },
   email: {
     type: String,
-    required: true
+    unique:true
+    // required: true
   },
   phone: {
     type: String,
-    required: true
+    // required: true
   },
   age: {
     type: Number,
-    required: true
+    // required: true
   },
   dateOfBirth: {
     type: Date,
-    required: true
+    // required: true
   },
   pastExperience: {
     type: String,
-    required: true
+    // required: true
   },
   highestLevelPlayed: {
     type: String,
-    required: true
+    // required: true
   },
   country: {
     type: String,
-    required: true
+    // required: true
   },
   photo: {
     type: String,
-    required: true
+    // required: true
   },
   achievements: {
     type: String,
-    required: true
+    // required: true
   },
   roleOfPlay: {
     type: String,
-    required: true
+    // required: true
   },
   roleOfCoaching: {
     type: String,
-    required: true
+    // required: true
   }
 });
 
 const CoachModel = mongoose.model("Coach", coachSchema);
 
-module.exports = CoachModel;
+export default CoachModel;

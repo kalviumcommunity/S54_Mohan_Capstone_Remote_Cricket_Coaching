@@ -1,10 +1,10 @@
 import React from 'react';
-import StudentSignIn from './Components/StudentSignIn';
-import StudentSignUp from './Components/StudentSignUp';
+import StudentSignIn from './Components/Student/StudentSignIn';
+import StudentSignUp from './Components/Student/StudentSignUp';
 import Navigation from './Components/Navigation';
 import Example from './Components/example';
-import CoachSignUp from './Components/CoachSignUp';
-import CoachSignIn from './Components/CoachSignIn';
+import CoachSignUp from './Components/Coach/CoachSignUp';
+import CoachSignIn from './Components/Coach/CoachSignIn';
 import { BrowserRouter,Routes, Route } from 'react-router-dom'
 
 const App = () => {
@@ -15,6 +15,7 @@ const App = () => {
 <Route path='/StudetSignIn' element={<StudentSignIn/>}/>
 <Route path='/StudentSignUp' element={<StudentSignUp/>}/>
 <Route path='/example' element={<Example/>}/>
+
 <Route path='/' element={<Navigation/>}/>
 <Route path='/CoachSignUp' element={<CoachSignUp/>}/>
 <Route path='/CoachSignIn' element={<CoachSignIn/>}/>
