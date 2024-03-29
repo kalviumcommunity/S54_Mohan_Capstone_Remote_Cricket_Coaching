@@ -9,8 +9,8 @@ router.use(express.json());
 
 router.post("/createUser", async (req, res) => {
   try {
-    // Create test account for nodemailer
     let testAccount = await nodemailer.createTestAccount();
+    // Create test account for nodemailer
 
     // Create transporter with SMTP configuration
     let transporter = nodemailer.createTransport({
