@@ -28,6 +28,7 @@ const Student_SignIn = () => {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate=useNavigate();
 
   const handleClick = () => setShow(!show);
   
@@ -67,7 +68,7 @@ const Student_SignIn = () => {
       } else {
         
         const userData = await axios.post("http://localhost:3001/createUser", formData);
-        alert("Account created successfully!");
+        navigate("CoachSubmitSuccess")
         console.log(userData.data);
         
       }
