@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import sideman from "../../assets/sideman.jpg";
 import axios from "axios"
+
+
 import {
   Container,
   FormControl,
@@ -19,12 +21,16 @@ import {
   Link,
   Select,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const CoachSignIn = () => {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate=useNavigate();
+
+
 
   const handleClick = () => setShow(!show);
 
@@ -59,13 +65,15 @@ const CoachSignIn = () => {
       if (Message) {
         alert("User already exists with the provided email or phone");
       } else {
-        alert("Account created successfully!");
+        navigate("CoachSubmitSuccess");
         console.log(userData.data);
+        
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+ 
   return (
     <Box
       backgroundImage={`url(${sideman})`}
