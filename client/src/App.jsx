@@ -6,25 +6,30 @@ import Example from './Components/example';
 import CoachSignUp from './Components/Coach/CoachSignUp';
 import CoachSignIn from './Components/Coach/CoachSignIn';
 import { BrowserRouter,Routes, Route } from 'react-router-dom'
+import CoachSubmitSuccess from './Components/CoachSubmitSuccess';
+
+
 
 const App = () => {
   return (
-<BrowserRouter>
+    <>
+  
+  
+ <BrowserRouter>
 <Routes>
-{/* <Route path='/' element={<Home></Home>}/> */}
+{/* <Route path='/' element={<Home></Home>}/>  */}
 <Route path='/StudetSignIn' element={<StudentSignIn/>}/>
 <Route path='/StudentSignUp' element={<StudentSignUp/>}/>
 <Route path='/example' element={<Example/>}/>
+<Route path='/CoachSignIn/CoachSubmitSuccess' element={<CoachSubmitSuccess/>}/>
 
 <Route path='/' element={<Navigation/>}/>
 <Route path='/CoachSignUp' element={<CoachSignUp/>}/>
 <Route path='/CoachSignIn' element={<CoachSignIn/>}/>
 
-      {/* <Student_SignIn></Student_SignIn> */}
-      {/* <Student_SignUp></Student_SignUp> */}
-      {/* <Navigation></Navigation> */}
 </Routes>
-</BrowserRouter>
+</BrowserRouter> 
+</>
   );
 }
 
