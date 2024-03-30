@@ -20,9 +20,7 @@ mongoose.connect("mongodb+srv://mohantheboss1432:mohan01012005@cluster0.prkm0wp.
   console.log(error);
   
 })
-app.get("/",(req,res)=>{
-  res.send({message:"Hello"})
-})
+
 app.listen(3001,()=>{
   console.log(`http://localhost:3001/`);
   console.log('Server running on port 3001');
