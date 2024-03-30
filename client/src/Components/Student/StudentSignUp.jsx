@@ -27,13 +27,31 @@ const Student_SignIn = () => {
   
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
+  const [postImage,setPostImage]=useState("");
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate=useNavigate();
-
+  const url="http://localhost:3001/createUser"
   const handleClick = () => setShow(!show);
   
+
+
+const createPost=async (newImage)=>{
+  try {
+    const formData={...data,photo:postImage}
+    await axios.post(url,newImage)
+    console.log(formData);
+    
+  } catch (error) {
+    
+  }
+}
   const handleSubmit = async (e) => {
     e.preventDefault();
+    createPost(postImage);
+    console.log("Uploaded");
+    
+ 
+    
     const formData = {
       firstName: e.target.firstName.value,
       lastName: e.target.lastName.value,
@@ -71,6 +89,15 @@ const Student_SignIn = () => {
       console.error("Error:", error);
     }
   };
+
+
+  const handleFileUpload=async (e)=>{
+    const file=e.target.files[0];
+    const base64=await converToBase64(file);
+    setPostImage(base64)
+   }
+
+
   return (
     <Box    
     backgroundImage={`url(${sideman})`}
@@ -78,7 +105,10 @@ const Student_SignIn = () => {
     backgroundPosition="center"
     h="100vh"
     overflowY="auto"
-    position="relative">
+    position="relative" 
+    
+    
+    >
     <Box
         position="absolute"
         top="0"
@@ -96,8 +126,8 @@ const Student_SignIn = () => {
         <Stack spacing={4}>
          
           <VStack
-             as="form"
-             marginLeft="45vw"
+              as="form"
+              marginLeft="45vw"
               onSubmit={handleSubmit}
               width="50vw"
               h="max-content !important"
@@ -106,6 +136,9 @@ const Student_SignIn = () => {
               boxShadow="lg"
               p={{ base: 5, sm: 10 }}
               spacing={8}
+              action='/createUser'
+              method='POST'
+              enctype="multipart/form-data"
             
           >
             <VStack spacing={4} w="100%">
@@ -180,7 +213,7 @@ const Student_SignIn = () => {
 
               <FormControl id="photo">
                 <FormLabel>Photo</FormLabel>
-                <Input rounded="md" type="file" paddingTop="3px"/>
+                <Input name='photo' rounded="md" type="file" paddingTop="3px" accept=".jpeg , .png , .jpg" onChange={(e)=>handleFileUpload(e) }/>
               </FormControl>
 
 
@@ -271,3 +304,20 @@ const Student_SignIn = () => {
 };
 
 export default Student_SignIn;
+
+
+
+
+function converToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const fileReader=new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload=()=>{
+      resolve(fileReader.result)
+    };
+    fileReader.onerror=(error)=>{
+      reject(error)
+    }
+  })
+
+}

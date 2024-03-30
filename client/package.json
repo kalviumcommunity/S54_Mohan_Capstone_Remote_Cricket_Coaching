@@ -14,6 +14,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "axios": "^1.6.8",
+    "cors": "^2.8.5",
     "dom": "^0.0.3",
     "flowbite-react": "^0.7.5",
     "framer-motion": "^11.0.18",
