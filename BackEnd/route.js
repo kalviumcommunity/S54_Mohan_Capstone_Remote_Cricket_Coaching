@@ -1,58 +1,29 @@
 import express from "express";
-import nodemailer from 'nodemailer';
+
 import StudentModel from "./models/studentSchema.js";
 import CoachModel from "./models/coachSchema.js"
+import sendMail from "./utils/sendMail.js";
+
 
 const router = express.Router();
 
 router.use(express.json());
 
 router.post("/createUser", async (req, res) => {
-  try {
-    // Create test account for nodemailer
-    let testAccount = await nodemailer.createTestAccount();
+  const {email,firstName}=req.body
+  const data = req.body;
+  try {   
+    const studentExists=await StudentModel.findOne({email:email});
+    if (studentExists){
+      res.send({message:"user Exists"});
+    }  // Save user data
+    else{
 
-    // Create transporter with SMTP configuration
-    let transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
-    });
-
-    // Create email message
-    let message = {
-      from: 'kumar.mohan@kalvium.community',
-      to: 'mohantheboss1432@gmail.com',
-      subject: "Hello",
-      text: "Hello world",
-      html: "<b>Hello world</b>",
-    };
-
-    // Send email
-    let info = await transporter.sendMail(message);
-
-    // Log email information
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
-    // Save user data
-    const data = req.body;
-    const user = new StudentModel(data);
-    await user.save();
-
-    // Respond with success message
-    res.status(201).json({
-      msg: "You should receive an email",
-      info: info.messageId,
-      preview: nodemailer.getTestMessageUrl(info),
-      message: true,
-      data: "New user is created successfully",
-      User: user,
-    });
+      const Student = new StudentModel(data);
+      await Student.save();
+      sendMail(email,firstName);
+      res.send({message:"Done",data:Student})
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: false, error: "Internal Server Error" });
@@ -70,6 +41,14 @@ router.get("/checkUser", async (req, res) => {
     res.status(500).send({ message: false, error: "Internal Server Error" });
   }
 });
+
+
+// / Email sending route ///////////////////////////////////////////////////////////////////
+
+
+router.get("/sendemail",sendMail)
+
+
 
 //Create the coach
 router.post("/createCoach", async (req, res) => {

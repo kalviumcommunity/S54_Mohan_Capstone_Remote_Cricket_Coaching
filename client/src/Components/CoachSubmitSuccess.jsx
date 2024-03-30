@@ -54,15 +54,15 @@ const HeroSection = () => {
         <Box ml={{ base: 0, md: 5 }} width="30%" >
           <DottedBox />
           <Image
-            w="60%"
-            h="100%"
-            minW={{ base: 'auto', md: '30rem' }}
-            objectFit="cover"
-            src={MotivationalQuote}
-            rounded="md"
-            marginLeft="10vw"
-            fallback={<Skeleton />}
-          />
+  w="60%"
+  h="100%"
+  minW={{ base: 'auto', md: '30rem' }}
+  objectFit="cover"
+  src={MotivationalQuote} // Make sure MotivationalQuote is the correct variable holding your photo URL
+  rounded="md"
+  marginLeft={{ base: 'auto', md: '10vw' }} // Adjusted marginLeft for responsiveness
+  fallback={<Skeleton />} // Fallback in case the image fails to load
+/>
         </Box>
       </Stack>
     </Container>

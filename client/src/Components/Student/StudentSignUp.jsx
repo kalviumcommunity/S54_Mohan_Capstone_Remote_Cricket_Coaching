@@ -28,6 +28,7 @@ const Student_SignIn = () => {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate=useNavigate();
 
   const handleClick = () => setShow(!show);
   
@@ -54,27 +55,20 @@ const Student_SignIn = () => {
   
     try {
       // Check if email or phone already exists
-      const checkIfExists = await axios.get("http://localhost:3001/checkUser", {
-        params: {
-          email: formData.email,
-          phone: formData.phone
-        }
-      });
-  
-      if (checkIfExists.data.exists) {
-
-        alert("User already exists with the provided email or phone.");
+      const userData = await axios.post(
+        "http://localhost:3001/createUser",
+        formData
+      );
+      const Message = userData.data.message == "user Exists";
+      if (Message) {
+        alert("User already exists with the provided email or phone");
       } else {
-        
-        const userData = await axios.post("http://localhost:3001/createUser", formData);
-        alert("Account created successfully!");
+        navigate("CoachSubmitSuccess");
         console.log(userData.data);
         
       }
     } catch (error) {
-      
-      console.error("Error:",error); 
-      alert("User already exists with the provided email or phone");
+      console.error("Error:", error);
     }
   };
   return (

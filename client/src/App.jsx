@@ -22,6 +22,7 @@ const App = () => {
 <Route path='/StudentSignUp' element={<StudentSignUp/>}/>
 <Route path='/example' element={<Example/>}/>
 <Route path='/CoachSignIn/CoachSubmitSuccess' element={<CoachSubmitSuccess/>}/>
+<Route path='/StudentSignUp/CoachSubmitSuccess' element={<CoachSubmitSuccess/>}/>
 
 <Route path='/' element={<Navigation/>}/>
 <Route path='/CoachSignUp' element={<CoachSignUp/>}/>
