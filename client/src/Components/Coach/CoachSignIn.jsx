@@ -29,51 +29,84 @@ const CoachSignIn = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate=useNavigate();
+  const url="http://localhost:3001/createCoach"
 
-
+  const [imageSelected,setImageSelected]=useState("")
 
   const handleClick = () => setShow(!show);
+  
+
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('file', imageSelected);
+    formData.append('upload_preset', 'images_preset');
+
+    try {
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
+        formData
+      );
+      console.log('response: ', response);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      firstName: e.target.firstName.value,
-      lastName: e.target.lastName.value,
-      phone: e.target.phone.value,
-      email: e.target.email.value,
-      country: e.target.country.value,
-      state: e.target.state.value,
-      pinCode: e.target.pinCode.value,
-      address: e.target.address.value,
-      photo: e.target.photo.value,
-      role: e.target.role.value,
-      password: password,
-      confirmPassword: confirmPassword,
-      // age: e.target.age.value,
-      // dateOfBirth: e.target.dateOfBirth.value,
-      // gender: e.target.Gender.value,
-      // highestLevelPlayed: e.target.highestLevelPlayed.value
-    };
-
+    if (!imageSelected) {
+      alert('No image selected');
+      return;
+    }
+  
     try {
-      // Check if email or phone already exists
-      const userData = await axios.post(
-        "http://localhost:3001/createCoach",
+      // Upload image to Cloudinary
+      const formData = new FormData();
+      formData.append('file', imageSelected);
+      formData.append('upload_preset', 'images_preset');
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
         formData
       );
-      const Message = userData.data.message == "user Exists";
-      if (Message) {
-        alert("User already exists with the provided email or phone");
+      const imageUrl = response.data.secure_url;
+  
+      // Prepare form data to be sent to the database
+      const formDataDB = {
+        firstName: e.target.firstName.value,
+        lastName: e.target.lastName.value,
+        phone: e.target.phone.value,
+        email: e.target.email.value,
+        country: e.target.country.value,
+        state: e.target.state.value,
+        pinCode: e.target.pinCode.value,
+        address: e.target.address.value,
+        role: e.target.role.value,
+        password: password,
+        confirmPassword: confirmPassword,
+        // age: e.target.age.value,
+        // dateOfBirth: e.target.dateOfBirth.value,
+        // gender: e.target.Gender.value,
+        // highestLevelPlayed: e.target.highestLevelPlayed.value,
+        photo: imageUrl,
+      };
+  
+      // Send form data to the database
+      const userData = await axios.post('http://localhost:3001/createCoach', formDataDB);
+  
+      // Handle the response based on the message from the server
+      const message = userData.data.message;
+      if (message === 'user Exists') {
+        alert('User already exists with the provided email or phone');
       } else {
-        navigate("CoachSubmitSuccess");
+        navigate('CoachSubmitSuccess');
         console.log(userData.data);
-        
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
- 
+  
   return (
     <Box
       backgroundImage={`url(${sideman})`}
@@ -156,7 +189,7 @@ const CoachSignIn = () => {
 
                 <FormControl id="photo">
                   <FormLabel>Photo</FormLabel>
-                  <Input rounded="md" type="file" paddingTop="3px" />
+                  <Input rounded="md" type="file" paddingTop="3px"  onChange={(event) => setImageSelected(event.target.files[0])}/>
                 </FormControl>
 
                 <FormControl id="role">
