@@ -1,6 +1,8 @@
 import React from 'react';
 import StudentSignIn from './Components/Student/StudentSignIn';
+
 import StudentSignUp from './Components/Student/StudentSignUp';
+
 import Navigation from './Components/Navigation';
 import Example from './Components/example';
 import CoachSignUp from './Components/Coach/CoachSignUp';
@@ -18,8 +20,9 @@ const App = () => {
  <BrowserRouter>
 <Routes>
 {/* <Route path='/' element={<Home></Home>}/>  */}
-<Route path='/StudetSignIn' element={<StudentSignIn/>}/>
+
 <Route path='/StudentSignUp' element={<StudentSignUp/>}/>
+<Route path='/StudentSignIn' element={<StudentSignIn/>}/>
 <Route path='/example' element={<Example/>}/>
 <Route path='/CoachSignIn/CoachSubmitSuccess' element={<CoachSubmitSuccess/>}/>
 <Route path='/StudentSignUp/CoachSubmitSuccess' element={<CoachSubmitSuccess/>}/>

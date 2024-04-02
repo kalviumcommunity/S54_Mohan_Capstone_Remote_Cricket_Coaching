@@ -27,76 +27,87 @@ const Student_SignIn = () => {
   
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
-  const [postImage,setPostImage]=useState("");
+  
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate=useNavigate();
   const url="http://localhost:3001/createUser"
+
+  const [imageSelected,setImageSelected]=useState("")
+
   const handleClick = () => setShow(!show);
   
 
 
-const createPost=async (newImage)=>{
-  try {
-    const formData={...data,photo:postImage}
-    await axios.post(url,newImage)
-    console.log(formData);
-    
-  } catch (error) {
-    
-  }
-}
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    createPost(postImage);
-    console.log("Uploaded");
-    
- 
-    
-    const formData = {
-      firstName: e.target.firstName.value,
-      lastName: e.target.lastName.value,
-      phone: e.target.phone.value,
-      email: e.target.email.value,
-      country: e.target.country.value,
-      state: e.target.state.value,
-      pinCode: e.target.pinCode.value,
-      address: e.target.address.value,
-      photo: e.target.photo.value,
-      role: e.target.role.value,
-      password: password,
-      confirmPassword: confirmPassword,
-      age: e.target.age.value,
-      dateOfBirth: e.target.dateOfBirth.value,
-      gender: e.target.Gender.value,
-      highestLevelPlayed: e.target.highestLevelPlayed.value
-    };
-  
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('file', imageSelected);
+    formData.append('upload_preset', 'images_preset');
+
     try {
-      // Check if email or phone already exists
-      const userData = await axios.post(
-        "http://localhost:3001/createUser",
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
         formData
       );
-      const Message = userData.data.message == "user Exists";
-      if (Message) {
-        alert("User already exists with the provided email or phone");
-      } else {
-        navigate("CoachSubmitSuccess");
-        console.log(userData.data);
-        
-      }
+      console.log('response: ', response);
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error uploading image:', error);
     }
   };
 
-
-  const handleFileUpload=async (e)=>{
-    const file=e.target.files[0];
-    const base64=await converToBase64(file);
-    setPostImage(base64)
-   }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!imageSelected) {
+      alert('No image selected');
+      return;
+    }
+  
+    try {
+      // Upload image to Cloudinary
+      const formData = new FormData();
+      formData.append('file', imageSelected);
+      formData.append('upload_preset', 'images_preset');
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
+        formData
+      );
+      const imageUrl = response.data.secure_url;
+  
+      // Prepare form data to be sent to the database
+      const formDataDB = {
+        firstName: e.target.firstName.value,
+        lastName: e.target.lastName.value,
+        phone: e.target.phone.value,
+        email: e.target.email.value,
+        country: e.target.country.value,
+        state: e.target.state.value,
+        pinCode: e.target.pinCode.value,
+        address: e.target.address.value,
+        role: e.target.role.value,
+        password: password,
+        confirmPassword: confirmPassword,
+        age: e.target.age.value,
+        dateOfBirth: e.target.dateOfBirth.value,
+        gender: e.target.Gender.value,
+        highestLevelPlayed: e.target.highestLevelPlayed.value,
+        photo: imageUrl,
+      };
+  
+      // Send form data to the database
+      const userData = await axios.post('http://localhost:3001/createUser', formDataDB);
+  
+      // Handle the response based on the message from the server
+      const message = userData.data.message;
+      if (message === 'user Exists') {
+        alert('User already exists with the provided email or phone');
+      } else {
+        navigate('CoachSubmitSuccess');
+        console.log(userData.data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
 
   return (
     <Box    
@@ -213,7 +224,7 @@ const createPost=async (newImage)=>{
 
               <FormControl id="photo">
                 <FormLabel>Photo</FormLabel>
-                <Input name='photo' rounded="md" type="file" paddingTop="3px" accept=".jpeg , .png , .jpg" onChange={(e)=>handleFileUpload(e) }/>
+                <Input name='photo' rounded="md" type="file" paddingTop="3px" accept=".jpeg , .png , .jpg" onChange={(event) => setImageSelected(event.target.files[0])}/>
               </FormControl>
 
 
@@ -308,16 +319,3 @@ export default Student_SignIn;
 
 
 
-function converToBase64(file){
-  return new Promise((resolve,reject)=>{
-    const fileReader=new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload=()=>{
-      resolve(fileReader.result)
-    };
-    fileReader.onerror=(error)=>{
-      reject(error)
-    }
-  })
-
-}
