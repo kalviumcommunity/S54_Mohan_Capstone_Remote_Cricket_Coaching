@@ -15,7 +15,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 
-const Student_SignUp = () => {
+const StudentSignIn = () => {
   return (
     <>
       <Box
@@ -91,6 +91,6 @@ const Student_SignUp = () => {
       </Box>
     </>
   );
-};
+}
 
-export default Student_SignUp;
+export default StudentSignIn;

@@ -58,7 +58,7 @@ const CoachSignUp = () => {
           color="white"
          
         >
-          Sign in to your account
+          Sign in to your account Coach
         </Heading>
                   <FormControl id="StudentId">
                     <FormLabel marginTop="5vh">Coach ID</FormLabel>
