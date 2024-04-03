@@ -55,6 +55,8 @@ function Navigation() {
         textAlign="center"
       >
         <Box>
+
+        <Button colorScheme='messenger'>Admin ?</Button>
           <Heading as="h1" fontSize="7xl" fontWeight="bold" paddingBottom="20vh">
             Who are You ?
           </Heading>
@@ -64,9 +66,12 @@ function Navigation() {
               onOpen();
               setStudent(true);
             }}
-            bg="rgb(45,55, 72)"
+            
             marginRight="10vw"
-            boxShadow="0px 0px 3px 3px white"
+            
+            bg="blue.700"
+            color="black"
+            boxShadow="0px 0px 2px 2px yellow"
           >
             I am a Student
           </Button>
@@ -77,8 +82,9 @@ function Navigation() {
           setCoach(true);
         }}
 
-            bg="rgb(45,55, 72)"
-            boxShadow="0px 0px 3px 3px white"
+            bg="blue.700"
+            color="black"
+            boxShadow="0px 0px 2px 2px yellow"
           >
             I am a Coach
           </Button>
