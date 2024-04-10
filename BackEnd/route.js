@@ -2,7 +2,7 @@ import express from "express";
 import StudentModel from "./models/studentSchema.js";
 import CoachModel from "./models/coachSchema.js";
 import sendMail from "./utils/sendMail.js";
-
+import denyMail from "./utils/DenyMail.js";
 const router = express.Router();
 
 router.use(express.json());
@@ -52,6 +52,8 @@ router.get("/fetchData", async (req, res) => {
 });
 
 router.get("/sendemail", sendMail);
+router.get("/denyemail", denyMail);
+
 
 router.post("/createCoach", async (req, res) => {
   const { email } = req.body;
@@ -82,5 +84,30 @@ router.get("/checkCoach", async (req, res) => {
     res.status(500).send({ message: false, error: "Internal Server Error" });
   }
 });
-
+router.delete("/deleteuser/:username/:id", async (req, res) => {
+  const id=req.params.id
+  const usermail=req.params.username
+  denyMail(usermail)
+  try {
+    const coach = await StudentModel.findByIdAndDelete(id);
+    res.send({
+      message: "User deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: false, error: "Internal Server Error" });
+  }
+});
+router.delete("/deleteuserafterverified/:id", async (req, res) => {
+  const id=req.params.id
+  try {
+    const coach = await StudentModel.findByIdAndDelete(id);
+    res.send({
+      message: "User deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: false, error: "Internal Server Error" });
+  }
+});
 export default router;

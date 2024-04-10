@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-const Student_SignIn = () => {
+const StudentSignIn = () => {
   
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
@@ -104,7 +104,7 @@ const Student_SignIn = () => {
         console.log(userData.data);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.log('Error:', error);
     }
   };
   
@@ -311,10 +311,10 @@ const Student_SignIn = () => {
       </Center>
     </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Student_SignIn;
+export default StudentSignIn;
 
 
 
