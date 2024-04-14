@@ -20,7 +20,7 @@ Thank you for submitting your form for account creation. We have received your c
 
 Best regards,
 Mohan Kumar`,
-    html: `<p>Dear ${name},</p><p>Thank you for submitting your form for account creation. We have received your credentials , we will verify your credentials  and will get back to you within 24 hours,  stay tuned.</p><p>Best regards,<br/>Mohan Kumar</p>`,
+    html: `<p>Dear ${name},</p><p>Thank you for submitting your form for account creation. We have received your credentials , we will verify your credentials  and will get back to you within 24 hours,  stay tuned. </p><p>Best regards,<br/>Mohan Kumar</p>`,
   });
   console.log("Message sent: %s", info.messageId);
   // res.json({info});

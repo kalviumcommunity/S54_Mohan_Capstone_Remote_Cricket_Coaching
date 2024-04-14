@@ -78,6 +78,7 @@ router.get("/checkCoach", async (req, res) => {
     const coach = await CoachModel.find();
     res.send({
       message: "Got the data",
+      coachData:coach
     });
   } catch (err) {
     console.error(err);
