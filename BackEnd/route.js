@@ -2,7 +2,9 @@ import express from "express";
 import StudentModel from "./models/studentSchema.js";
 import CoachModel from "./models/coachSchema.js";
 import sendMail from "./utils/sendMail.js";
+import coachmail from "./utils/CoachMail.js";
 import denyMail from "./utils/DenyMail.js";
+import coachDeny from "./utils/CoachDeny.js";
 const router = express.Router();
 
 router.use(express.json());
@@ -52,20 +54,25 @@ router.get("/fetchData", async (req, res) => {
 });
 
 router.get("/sendemail", sendMail);
+router.get("/coachmail", coachmail);
 router.get("/denyemail", denyMail);
+router.get("/coachdeny", coachDeny);
 
 
 router.post("/createCoach", async (req, res) => {
-  const { email } = req.body;
+  const { email, firstName } = req.body;
   const data = req.body;
   try {
     const coachExists = await CoachModel.findOne({ email: email });
+
     if (coachExists) {
       res.send({ message: "user Exists" });
     } else {
       const Coach = new CoachModel(data);
       await Coach.save();
+      coachmail(email,firstName)
       res.send({ message: "Done", data: Coach });
+
     }
   } catch (error) {
     console.error(error);
@@ -122,7 +129,7 @@ router.delete("/deleteuserafterverified/:id", async (req, res) => {
 router.delete("/deletecoach/:coachname/:id", async (req, res) => {
   const id=req.params.id
   const coachmail=req.params.coachname
-  denyMail(coachmail)
+  coachDeny(coachmail)  
   try {
     const coach = await CoachModel.findByIdAndDelete(id);
     res.send({
