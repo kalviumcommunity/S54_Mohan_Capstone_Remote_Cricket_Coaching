@@ -85,12 +85,17 @@ router.get("/checkCoach", async (req, res) => {
     res.status(500).send({ message: false, error: "Internal Server Error" });
   }
 });
+
+
+//   deleting the student by the id 
+
+
 router.delete("/deleteuser/:username/:id", async (req, res) => {
   const id=req.params.id
   const usermail=req.params.username
   denyMail(usermail)
   try {
-    const coach = await StudentModel.findByIdAndDelete(id);
+    const student = await StudentModel.findByIdAndDelete(id);
     res.send({
       message: "User deleted successfully",
     });
@@ -102,7 +107,36 @@ router.delete("/deleteuser/:username/:id", async (req, res) => {
 router.delete("/deleteuserafterverified/:id", async (req, res) => {
   const id=req.params.id
   try {
-    const coach = await StudentModel.findByIdAndDelete(id);
+    const student = await StudentModel.findByIdAndDelete(id);
+    res.send({
+      message: "User deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: false, error: "Internal Server Error" });
+  }
+});
+
+
+// deleting the coach 
+router.delete("/deletecoach/:coachname/:id", async (req, res) => {
+  const id=req.params.id
+  const coachmail=req.params.coachname
+  denyMail(coachmail)
+  try {
+    const coach = await CoachModel.findByIdAndDelete(id);
+    res.send({
+      message: "Coach deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: false, error: "Internal Server Error" });
+  }
+});
+router.delete("/deletecoachafterverified/:id", async (req, res) => {
+  const id=req.params.id
+  try {
+    const coach = await CoachModel.findByIdAndDelete(id);
     res.send({
       message: "User deleted successfully",
     });
