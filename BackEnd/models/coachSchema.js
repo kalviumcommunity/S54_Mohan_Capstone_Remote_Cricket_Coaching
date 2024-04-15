@@ -53,6 +53,10 @@ const coachSchema = new mongoose.Schema({
   roleOfCoaching: {
     type: String,
     // required: true
+  },
+  password: {
+    type: String,
+    // required: true
   }
 });
 

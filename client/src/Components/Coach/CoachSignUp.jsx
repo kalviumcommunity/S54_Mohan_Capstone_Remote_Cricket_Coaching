@@ -14,20 +14,40 @@ import {
   Image,
   Flex,
 } from '@chakra-ui/react';
+import axios from "axios"
 
 const CoachSignUp = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    const formData = {
+      email: event.target.email.value,
+      password: event.target.password.value
+    };
+
+    try {
+      const responseData = await axios.post("http://localhost:5001/coachlogin", formData);
+      if (responseData.data.message) {
+        alert("Login Success");
+      } else {
+        alert("Login Failed");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error occurred. Please try again later.");
+    }
+  };
+
   return (
     <>
       <Box
         backgroundImage={`url(${blank})`}
-        backgroundSize="cover" 
+        backgroundSize="cover"
         backgroundPosition="center"
         display="flex"
         justifyContent="center"
         alignItems="center"
         position="relative"
       >
-    
         <Stack
           direction={{ base: 'column-reverse', md: 'row' }}
           bg="transparent"
@@ -38,6 +58,7 @@ const CoachSignUp = () => {
             <Stack spacing={4}>
               <VStack
                 as="form"
+                onSubmit={handleSubmit} // Call handleSubmit on form submission
                 marginTop="10vh"
                 marginLeft="4vw"
                 spacing={8}
@@ -48,26 +69,21 @@ const CoachSignUp = () => {
                 p={{ base: 5, sm: 10 }}
               >
                 <VStack spacing={4} w="100%">
-                <Heading
-          fontSize="4xl"
-          fontFamily="mate sc, serif"
-          zIndex="1"
-          
-          // paddingBottom="20vh"
-          left="40vw"
-          color="white"
-         
-        >
-          Sign in to your account Coach
-        </Heading>
-                  <FormControl id="StudentId">
-                    <FormLabel marginTop="5vh">Coach ID</FormLabel>
-                    <Input rounded="md" type="number" />
+                  <Heading
+                    fontSize="4xl"
+                    fontFamily="mate sc, serif"
+                    zIndex="1"
+                    color="white"
+                  >
+                    Sign in to your account Coach
+                  </Heading>
+                  <FormControl id="email">
+                    <FormLabel marginTop="5vh">Coach Email</FormLabel>
+                    <Input rounded="md" type="email" name="email" />
                   </FormControl>
-                 
                   <FormControl id="password">
                     <FormLabel>Password</FormLabel>
-                    <Input rounded="md" type="password" />
+                    <Input rounded="md" type="password" name="password" />
                   </FormControl>
                 </VStack>
                 <VStack w="100%">
@@ -78,6 +94,7 @@ const CoachSignUp = () => {
                     <Link fontSize={{ base: 'md', sm: 'md' }}>Forgot password?</Link>
                   </Stack>
                   <Button
+                    type="submit" // Submit the form
                     bg="green.300"
                     color="white"
                     _hover={{
