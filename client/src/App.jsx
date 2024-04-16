@@ -9,6 +9,7 @@ import CoachSignUp from './Components/Coach/CoachSignUp';
 import CoachSignIn from './Components/Coach/CoachSignIn';
 import { BrowserRouter,Routes, Route } from 'react-router-dom'
 import CoachSubmitSuccess from './Components/CoachSubmitSuccess';
+import CoachDataToStudent from './Components/Student/CoachDataToStudent';
 
 
 
@@ -30,6 +31,7 @@ const App = () => {
 <Route path='/' element={<Navigation/>}/>
 <Route path='/CoachSignUp' element={<CoachSignUp/>}/>
 <Route path='/CoachSignIn' element={<CoachSignIn/>}/>
+<Route path='/coachDataToStudent' element={<CoachDataToStudent/>}/>
 
 </Routes>
 </BrowserRouter> 

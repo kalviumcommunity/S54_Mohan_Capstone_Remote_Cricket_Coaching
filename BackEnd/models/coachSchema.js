@@ -50,6 +50,9 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
+  description:{
+    type:String,
+  },
   roleOfCoaching: {
     type: String,
     // required: true

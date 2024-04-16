@@ -89,6 +89,8 @@ const CoachSignIn = () => {
         // gender: e.target.Gender.value,
         // highestLevelPlayed: e.target.highestLevelPlayed.value,
         photo: imageUrl,
+        description:e.target.description.value,
+        
       };
   
       // Send form data to the database
@@ -206,6 +208,11 @@ const CoachSignIn = () => {
                       Spinning All-rounder
                     </option>
                   </Select>
+                </FormControl>
+
+                <FormControl id="description">
+                  <FormLabel >Description</FormLabel>
+                  <Input rounded="md" type="text"  width={"45vw"} height={"20vh"}/>
                 </FormControl>
 
                 <FormControl id="password">

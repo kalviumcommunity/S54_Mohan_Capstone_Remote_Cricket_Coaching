@@ -30,7 +30,7 @@ const StudentSignIn = () => {
   
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate=useNavigate();
-  const url="http://localhost:3001/createUser"
+  const url="https://cric-elevate.vercel.app/createUser"
 
   const [imageSelected,setImageSelected]=useState("")
 
