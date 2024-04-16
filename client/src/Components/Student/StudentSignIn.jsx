@@ -1,5 +1,6 @@
 import * as React from 'react';
 import blank from '../../assets/blank.jpg';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   FormControl,
@@ -14,8 +15,10 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import axios from "axios";
-
 const StudentSignIn = () => {
+
+  const navigate=useNavigate()
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     const formData = {
@@ -24,9 +27,10 @@ const StudentSignIn = () => {
     };
 
     try {
-      const responseData = await axios.post("http://localhost:5001/studentlogin", formData);
+      const responseData = await axios.post("https://capstone-admin-crick-elevate.vercel.app/studentlogin", formData);
       if (responseData.data.message) {
         alert("Login Success");
+        navigate('/coachDataToStudent')
       } else {
         alert("Login Failed");
       }
