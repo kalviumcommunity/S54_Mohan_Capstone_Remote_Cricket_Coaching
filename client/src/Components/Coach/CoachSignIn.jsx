@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import sideman from "../../assets/sideman.jpg";
-import axios from "axios"
-
-
+import axios from "axios";
 import {
   Container,
+  RadioGroup,
   FormControl,
   FormLabel,
   Box,
+  Radio,
   Input,
   Stack,
   Button,
@@ -28,49 +28,31 @@ const CoachSignIn = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate=useNavigate();
-  const url="http://localhost:3001/createCoach"
-
-  const [imageSelected,setImageSelected]=useState("")
+  const [imageSelected, setImageSelected] = useState("");
+  const navigate = useNavigate();
+  const url = "http://localhost:3001/createCoach";
 
   const handleClick = () => setShow(!show);
-  
-
-
-  const uploadImage = async () => {
-    const formData = new FormData();
-    formData.append('file', imageSelected);
-    formData.append('upload_preset', 'images_preset');
-
-    try {
-      const response = await axios.post(
-        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
-        formData
-      );
-      console.log('response: ', response);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imageSelected) {
-      alert('No image selected');
+      alert("No image selected");
       return;
     }
-  
+
     try {
       // Upload image to Cloudinary
       const formData = new FormData();
-      formData.append('file', imageSelected);
-      formData.append('upload_preset', 'images_preset');
+      formData.append("file", imageSelected);
+      formData.append("upload_preset", "images_preset");
       const response = await axios.post(
-        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
+        "https://api.cloudinary.com/v1_1/dmrw31an8/image/upload",
         formData
       );
       const imageUrl = response.data.secure_url;
-  
+
+
       // Prepare form data to be sent to the database
       const formDataDB = {
         firstName: e.target.firstName.value,
@@ -79,36 +61,38 @@ const CoachSignIn = () => {
         email: e.target.email.value,
         country: e.target.country.value,
         state: e.target.state.value,
-        pinCode: e.target.pinCode.value,
         address: e.target.address.value,
         role: e.target.role.value,
+        amionline: e.target.amionline.value,
         password: password,
         confirmPassword: confirmPassword,
         // age: e.target.age.value,
-        // dateOfBirth: e.target.dateOfBirth.value,
-        // gender: e.target.Gender.value,
-        // highestLevelPlayed: e.target.highestLevelPlayed.value,
+        dateOfBirth: e.target.dateOfBirth.value,
+        gender: e.target.gender.value,
+        highestLevelPlayed: e.target.highestLevelPlayed.value,
         photo: imageUrl,
-        description:e.target.description.value,
-        
+        description: e.target.description.value,
       };
-  
+
       // Send form data to the database
-      const userData = await axios.post('http://localhost:3001/createCoach', formDataDB);
-  
+      const userData = await axios.post(
+        "http://localhost:3001/createCoach",
+        formDataDB
+      );
+
       // Handle the response based on the message from the server
       const message = userData.data.message;
-      if (message === 'user Exists') {
-        alert('User already exists with the provided email or phone');
+      if (message === "user Exists") {
+        alert("User already exists with the provided email or phone");
       } else {
-        navigate('CoachSubmitSuccess');
+        navigate("CoachSubmitSuccess");
         console.log(userData.data);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
-  
+
   return (
     <Box
       backgroundImage={`url(${sideman})`}
@@ -168,6 +152,10 @@ const CoachSignIn = () => {
                   <FormLabel>Email</FormLabel>
                   <Input rounded="md" type="email" />
                 </FormControl>
+                <FormControl id="dateOfBirth">
+                  <FormLabel>Date of Birth</FormLabel>
+                  <Input rounded="md" type="date" />
+                </FormControl>
 
                 <FormControl id="country">
                   <FormLabel>Country</FormLabel>
@@ -179,9 +167,30 @@ const CoachSignIn = () => {
                   <Input rounded="md" type="text" />
                 </FormControl>
 
-                <FormControl id="pinCode">
-                  <FormLabel>Pin Code</FormLabel>
-                  <Input rounded="md" type="number" />
+
+                <FormControl id="highestLevelPlayed">
+                  <FormLabel>highest Level Played</FormLabel>
+                  <Input rounded="md" type="text" />
+                </FormControl>
+
+                <FormControl id="amionline">
+                  <FormLabel>I am Online?</FormLabel>
+                  <Select placeholder="Are you online or not ?">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No </option>
+                 
+                  </Select>
+                </FormControl>
+
+
+                <FormControl id="gender">
+                  <FormLabel>Gender</FormLabel>
+                  <Select placeholder="select your gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female </option>
+                    <option value="Neither">Neither </option>
+                 
+                  </Select>
                 </FormControl>
 
                 <FormControl id="address">
@@ -191,7 +200,14 @@ const CoachSignIn = () => {
 
                 <FormControl id="photo">
                   <FormLabel>Photo</FormLabel>
-                  <Input rounded="md" type="file" paddingTop="3px"  onChange={(event) => setImageSelected(event.target.files[0])}/>
+                  <Input
+                    rounded="md"
+                    type="file"
+                    paddingTop="3px"
+                    onChange={(event) =>
+                      setImageSelected(event.target.files[0])
+                    }
+                  />
                 </FormControl>
 
                 <FormControl id="role">
@@ -210,9 +226,30 @@ const CoachSignIn = () => {
                   </Select>
                 </FormControl>
 
+                <FormControl id="coachingfor">
+                  <FormLabel>Select Your Role of Coaching</FormLabel>
+                  <Select placeholder="Select Your Role of coaching for">
+                    <option value="Batsman">Batsman</option>
+                    <option value="Fast Bowler">Fast Bowler</option>
+                    <option value="Spinner">Spinner</option>
+                    <option value="Wicket Keeper">Wicket Keeper</option>
+                    <option value="Fast Bowling All-rounder">
+                      Fast Bowling All-rounder
+                    </option>
+                    <option value="Spinning All-rounder">
+                      Spinning All-rounder
+                    </option>
+                  </Select>
+                </FormControl>
+
                 <FormControl id="description">
-                  <FormLabel >Description</FormLabel>
-                  <Input rounded="md" type="text"  width={"45vw"} height={"20vh"}/>
+                  <FormLabel>Description</FormLabel>
+                  <Input
+                    rounded="md"
+                    type="text"
+                    width={"45vw"}
+                    height={"20vh"}
+                  />
                 </FormControl>
 
                 <FormControl id="password">

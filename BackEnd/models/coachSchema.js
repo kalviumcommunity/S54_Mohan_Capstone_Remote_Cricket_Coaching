@@ -9,6 +9,32 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
+  country: {
+    type: String,
+    // required: true
+  },
+  pinCode: {
+    type: Number,
+    // required: true
+  },
+  state: {
+    type: String,
+    // required: true
+  },
+  gender: {
+    type: String,
+    // required: true
+  },
+  address: {
+    type: String,
+    // required: true
+  },
+  
+  role: {
+    type: String,
+    // required: true
+  },
+
   email: {
     type: String,
     unique:true
@@ -34,6 +60,10 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
+  amionline: {
+    type: String,
+    // required: true
+  },
   country: {
     type: String,
     // required: true
@@ -54,6 +84,10 @@ const coachSchema = new mongoose.Schema({
     type:String,
   },
   roleOfCoaching: {
+    type: String,
+    // required: true
+  },
+  coachingfor: {
     type: String,
     // required: true
   },
