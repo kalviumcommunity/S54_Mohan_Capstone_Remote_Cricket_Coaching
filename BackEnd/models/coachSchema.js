@@ -91,6 +91,14 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
+  fee: {
+    type: Number,
+    // required: true
+  },
+  detailedDescription: {
+    type: String,
+    // required: true
+  },
   password: {
     type: String,
     // required: true
