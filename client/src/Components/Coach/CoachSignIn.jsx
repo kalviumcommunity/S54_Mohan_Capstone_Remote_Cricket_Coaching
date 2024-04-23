@@ -72,8 +72,10 @@ const CoachSignIn = () => {
         highestLevelPlayed: e.target.highestLevelPlayed.value,
         photo: imageUrl,
         description: e.target.description.value,
+        detailedDescription: e.target.detailedDescription.value,
+        fee: e.target.fee.value,
       };
-
+        
       // Send form data to the database
       const userData = await axios.post(
         "http://localhost:3001/createCoach",
@@ -245,6 +247,25 @@ const CoachSignIn = () => {
                 <FormControl id="description">
                   <FormLabel>Description</FormLabel>
                   <Input
+                  placeholder="give a description about yourself and Your coaching style"
+                    rounded="md"
+                    type="text"
+                    width={"45vw"}
+                    height={"20vh"}
+                  />
+                </FormControl>
+                <FormControl id="fee">
+                  <FormLabel>Fee Per Month :</FormLabel>
+                  <Input
+                    rounded="md"
+                    type="number"
+                 
+                  />
+                </FormControl>
+                <FormControl id="detailedDescription">
+                  <FormLabel>Detailed Description For students :</FormLabel>
+                  <Input
+                    placeholder="Give a brief description about which type students you are looking for "
                     rounded="md"
                     type="text"
                     width={"45vw"}
