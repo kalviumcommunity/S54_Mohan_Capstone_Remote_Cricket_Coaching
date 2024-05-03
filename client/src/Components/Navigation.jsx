@@ -76,11 +76,13 @@ function Navigation() {
             I am a Student
           </Button>
           <Button
+
                    onClick={() => {
           setOverlay(<OverlayTwo />)
           onOpen();
           setCoach(true);
         }}
+        
 
             bg="blue.700"
             color="black"

@@ -1,56 +1,88 @@
 import React, { useState } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
+import {
+  Button,
+  Box,
+  Heading,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
-const events = [
-  { title: 'Meeting', start: new Date() }
-];
+const StudentEligibility = () => {
+  const [selectedSlots, setSelectedSlots] = useState([]);
+  const [showThankYou, setShowThankYou] = useState(false); // New state for thank you message
 
-export default function StudentEligibility() {
-  const [clickedDate, setClickedDate] = useState(null);
+  const handleSlotSelect = (slot) => {
+    const isSelected = selectedSlots.includes(slot);
+    let updatedSlots;
 
-  const handleDateClick = (arg) => {
-    setClickedDate(arg.dateStr);
+    if (isSelected) {
+      updatedSlots = selectedSlots.filter((selectedSlot) => selectedSlot !== slot);
+    } else {
+      updatedSlots = [...selectedSlots, slot];
+    }
+
+    setSelectedSlots(updatedSlots);
   };
 
-  const renderEventContent = (eventInfo) => {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
+  const saveAvailability = () => {
+    const formattedSlots = selectedSlots.map((slot) => {
+      return `${slot}:00 - ${slot + 1}:00`;
+    });
+
+    console.log("Selected time slots:", formattedSlots);
+    setShowThankYou(true); // Show thank you message after saving availability
+  };
+
+  const renderContent = () => {
+    if (showThankYou) {
+      return (
+        <Box textAlign="center">
+          <Heading size="md" mb={4}>Thank You!</Heading>
+          <Text>Your availability has been updated.</Text>
+        </Box>
+      );
+    } else {
+      return (
+        <>
+          <Heading size="md" mb={4}>Select Available Time Slots for Today</Heading>
+          <Text mb={2}>Click on the available slots to mark them as available:</Text>
+          <Box>
+            {[...Array(24)].map((_, index) => (
+              <Button 
+                key={index} 
+                variant="outline"
+                onClick={() => handleSlotSelect(index)}
+                colorScheme={selectedSlots.includes(index) ? 'red' : undefined}
+                mr={2}
+                mb={2}
+              >
+                {index}:00 - {index + 1}:00
+              </Button>
+            ))}
+          </Box>
+          <Button 
+            colorScheme="red"
+            variant="solid" 
+            mt={4} 
+            onClick={saveAvailability}
+          >
+            Save Availability
+          </Button>
+        </>
+      );
+    }
   };
 
   return (
-    <div style={{ color: '#fff', background: '#222', padding: '20px' }}>
-      <h1 style={{ color: '#fff' }}>Demo App</h1>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin]}
-        initialView='timeGridWeek'
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'timeGridWeek,timeGridDay'
-        }}
-        slotMinTime="08:00:00"
-        slotMaxTime="18:00:00"
-        slotDuration="00:15:00"
-        allDaySlot={false}
-        slotLabelFormat={{
-          hour: 'numeric',
-          minute: '2-digit',
-          omitZeroMinute: false,
-          meridiem: 'short'
-        }}
-        eventContent={renderEventContent}
-        events={events}
-        dateClick={handleDateClick} 
-        eventClick={handleDateClick} 
-        eventBackgroundColor={clickedDate ? '#007bff' : null} 
-        eventBorderColor={clickedDate ? '#007bff' : null} 
-      />
-    </div>
+    <Box
+      bg={useColorModeValue('gray.100', 'gray.800')}
+      p={4}
+      borderRadius="md"
+    >
+      <Text mb={4}>Today's Date: {new Date().toLocaleDateString()}</Text>
+      {renderContent()}
+    </Box>
   );
-}
+};
+
+export default StudentEligibility;
