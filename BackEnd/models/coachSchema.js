@@ -102,6 +102,11 @@ const coachSchema = new mongoose.Schema({
   password: {
     type: String,
     // required: true
+  },
+  availableTime: {
+    type: Array,
+    default:[]
+    // required: true
   }
 });
 
