@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import blank from '../../assets/blank.jpg';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,9 +15,12 @@ import {
   Image,
   Flex,
 } from '@chakra-ui/react';
-import axios from "axios"
+import axios from "axios";
+
 const CoachSignUp = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const [coachId, setCoachId] = useState(null); // State to store coach's ID
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     const formData = {
@@ -30,11 +33,11 @@ const CoachSignUp = () => {
       if (responseData.data.message) {
         alert("Login Success");
         console.log("Success: ");
-        
-        navigate('/studenteligibility')
+        // Store the coach's ID in state upon successful sign-in
+        setCoachId(responseData.data.coachId);
+        navigate('/CoachBoard');
       } else {
-        alert("Login Failed");
-          
+        alert("Login Failed"); 
       }
     } catch (error) {
       console.error(error);

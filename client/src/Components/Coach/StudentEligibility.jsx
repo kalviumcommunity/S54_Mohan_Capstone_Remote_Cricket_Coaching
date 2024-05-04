@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Button,
   Box,
@@ -8,29 +9,43 @@ import {
 } from '@chakra-ui/react';
 
 const StudentEligibility = () => {
-  const [selectedSlots, setSelectedSlots] = useState([]);
-  const [showThankYou, setShowThankYou] = useState(false); // New state for thank you message
+  const [selectedSlots, setSelectedSlots] = useState([]); // State to hold multiple selected slots
+  const [showThankYou, setShowThankYou] = useState(false);
 
   const handleSlotSelect = (slot) => {
-    const isSelected = selectedSlots.includes(slot);
-    let updatedSlots;
-
-    if (isSelected) {
-      updatedSlots = selectedSlots.filter((selectedSlot) => selectedSlot !== slot);
+    // Check if the slot is already selected
+    const slotIndex = selectedSlots.indexOf(slot);
+    if (slotIndex !== -1) {
+      // If selected, remove it from the list
+      setSelectedSlots(prevSlots => prevSlots.filter((_, index) => index !== slotIndex));
     } else {
-      updatedSlots = [...selectedSlots, slot];
+      // If not selected, add it to the list
+      setSelectedSlots(prevSlots => [...prevSlots, slot]);
     }
-
-    setSelectedSlots(updatedSlots);
   };
 
   const saveAvailability = () => {
-    const formattedSlots = selectedSlots.map((slot) => {
-      return `${slot}:00 - ${slot + 1}:00`;
-    });
+    // Check if there are selected slots
+    if (selectedSlots.length > 0) {
+      // Map selected slots to availability data
+      const availabilityData = selectedSlots.map(slot => ({
+        slot,
+        // Additional data if needed
+      }));
 
-    console.log("Selected time slots:", formattedSlots);
-    setShowThankYou(true); // Show thank you message after saving availability
+      axios.post('http://localhost:5001/availableTime/661eb4fbf622240d44e983f9', availabilityData)
+        .then(response => {
+          console.log('Availability saved successfully:', response.data);
+          setShowThankYou(true);
+        })
+        .catch(error => {
+          console.error('Error saving availability:', error);
+        });
+    }
+  };
+
+  const handleFinalSubmission = () => {
+    setShowThankYou(true);
   };
 
   const renderContent = () => {
@@ -44,17 +59,18 @@ const StudentEligibility = () => {
     } else {
       return (
         <>
-          <Heading size="md" mb={4}>Select Available Time Slots for Today</Heading>
-          <Text mb={2}>Click on the available slots to mark them as available:</Text>
+          <Heading size="md" mb={4}>Select Available Time Slot for Today</Heading>
+          <Text mb={2}>Click on the available slot to mark it as available:</Text>
           <Box>
             {[...Array(24)].map((_, index) => (
               <Button 
                 key={index} 
-                variant="outline"
+                variant={selectedSlots.includes(index) ? "solid" : "outline"} // Change variant based on selection
                 onClick={() => handleSlotSelect(index)}
                 colorScheme={selectedSlots.includes(index) ? 'red' : undefined}
                 mr={2}
                 mb={2}
+                disabled={selectedSlots.length > 0} // Disable all buttons if a slot is selected
               >
                 {index}:00 - {index + 1}:00
               </Button>
@@ -65,8 +81,18 @@ const StudentEligibility = () => {
             variant="solid" 
             mt={4} 
             onClick={saveAvailability}
+            disabled={selectedSlots.length === 0}
           >
             Save Availability
+          </Button>
+          <Button 
+            colorScheme="teal"
+            variant="solid" 
+            mt={4} 
+            onClick={handleFinalSubmission}
+            disabled={selectedSlots.length === 0 || showThankYou}
+          >
+            Final Submission
           </Button>
         </>
       );
