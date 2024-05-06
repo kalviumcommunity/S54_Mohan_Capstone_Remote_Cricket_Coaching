@@ -29,10 +29,11 @@ const CoachSignUp = () => {
     };
     
     try {
-      const responseData = await axios.post("https://capstone-admin-crick-elevate.vercel.app/coachlogin", formData);
+      const responseData = await axios.post("http://localhost:5001/coachlogin", formData);
       if (responseData.data.message) {
         alert("Login Success");
         console.log("Success: ");
+        console.log(responseData.data)
         // Store the coach's ID in state upon successful sign-in
         setCoachId(responseData.data.coachId);
         navigate('/CoachBoard');
@@ -102,7 +103,7 @@ const CoachSignUp = () => {
                     <Link fontSize={{ base: 'md', sm: 'md' }}>Forgot password?</Link>
                   </Stack>
                   <Button
-                    type="submit" // Submit the form
+                    type="submit" 
                     bg="green.300"
                     color="white"
                     _hover={{

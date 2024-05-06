@@ -25,15 +25,17 @@ const StudentEligibility = () => {
   };
 
   const saveAvailability = () => {
-    // Check if there are selected slots
+    
     if (selectedSlots.length > 0) {
-      // Map selected slots to availability data
+      
       const availabilityData = selectedSlots.map(slot => ({
         slot,
-        // Additional data if needed
+
       }));
 
-      axios.post('http://localhost:5001/availableTime/661eb4fbf622240d44e983f9', availabilityData)
+      const clusterId = '661ec8fef622240d44e98440'; // Replace this with your cluster ID
+
+      axios.post(`http://localhost:5001/availableTime/${clusterId}`, availabilityData)
         .then(response => {
           console.log('Availability saved successfully:', response.data);
           setShowThankYou(true);
