@@ -11,6 +11,9 @@ import CoachDataToStudent from './Components/Student/CoachDataToStudent';
 import StudentEligibility from './Components/Coach/StudentEligibility';
 import CoachBoard from '../src/Components/Coach/CoachBoard';
 
+import TimeSlots from './Components/Student/TimeSlots';
+import BookingSuccess from './Components/Student/BookingSuccess';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -23,11 +26,13 @@ const App = () => {
         <Route path="/CoachSignIn" element={<ChakraProvider><CoachSignIn /></ChakraProvider>} />
         <Route path="/CoachSignIn/CoachSubmitSuccess" element={<ChakraProvider><CoachSubmitSuccess /></ChakraProvider>} />
         <Route path="/StudentSignUp/CoachSubmitSuccess" element={<ChakraProvider><CoachSubmitSuccess /></ChakraProvider>} />
-        <Route path="/coachDataToStudent" element={<ChakraProvider><CoachDataToStudent /></ChakraProvider>} />
+        <Route path="/CoachDataToStudent" element={<ChakraProvider><CoachDataToStudent /></ChakraProvider>} />
 
 
       <Route path="/studenteligibility" element={<StudentEligibility/>} />  
         {/* <Route path="/" element={<StudentEligibility />} /> */}
+      <Route path="/TimeSlots" element={<TimeSlots/>} />  
+      <Route path="/BookingSuccess" element={<BookingSuccess/>} />  
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StudentEligibility from "./StudentEligibility";
+import { deleteCookie } from "./Cookie";
+// import { logOut } from "./Cookie";
+
 import {
   Avatar,
   Box,
@@ -30,16 +33,18 @@ import { FiMenu } from 'react-icons/fi';
 import { RiFlashlightFill } from 'react-icons/ri';
 
 export default function CoachBoard() {
+  const navigate=useNavigate()
   const [page, setPage] = useState("");
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const navigate = useNavigate();
 
   const handlePage = (page) => {
     setPage(page);
   };
+  // const logOut()
 
   const sidebarProps = {
-    handlePage: handlePage
+    handlePage: handlePage,
+    navigate:navigate
   };
 
   return (
@@ -94,6 +99,7 @@ export default function CoachBoard() {
 }
 
 const SidebarContent = (props) => (
+  
   <Box
     as="nav"
     pos="fixed"
@@ -133,6 +139,7 @@ const SidebarContent = (props) => (
           <NavItem onClick={() => props.handlePage('team')} icon={AiOutlineTeam}>Team</NavItem>
           <NavItem onClick={() => props.handlePage('projects')} icon={BsFolder2}>Projects</NavItem>
           <NavItem onClick={() => props.handlePage('calendar')} icon={BsCalendarCheck} >Calendar</NavItem>
+          <Button onClick={()=>{deleteCookie(   ),props.navigate('/')}}> Logout</Button>
         </Flex>
       </Box>
 

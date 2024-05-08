@@ -1,6 +1,7 @@
 import * as React from 'react';
 import blank from '../../assets/blank.jpg';
 import { useNavigate } from 'react-router-dom';
+import { createCookie } from '../Coach/Cookie';
 import {
   Box,
   FormControl,
@@ -27,9 +28,12 @@ const StudentSignIn = () => {
     };
 
     try {
-      const responseData = await axios.post("https://capstone-admin-crick-elevate.vercel.app/studentlogin", formData);
+      const responseData = await axios.post("http://localhost:5001/studentlogin", formData);
       if (responseData.data.message) {
         alert("Login Success");
+
+        createCookie(responseData.data.userId,formData.email)
+        console.log(formData.email)
         navigate('/coachDataToStudent')
       } else {
         alert("Login Failed");
