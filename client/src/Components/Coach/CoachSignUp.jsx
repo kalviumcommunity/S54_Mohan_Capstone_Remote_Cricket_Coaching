@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import blank from '../../assets/blank.jpg';
 import { useNavigate } from 'react-router-dom';
+import { createCookie } from './Cookie';
+
 import {
   Box,
   FormControl,
@@ -19,7 +21,7 @@ import axios from "axios";
 
 const CoachSignUp = () => {
   const navigate = useNavigate();
-  const [coachId, setCoachId] = useState(null); // State to store coach's ID
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
@@ -34,8 +36,10 @@ const CoachSignUp = () => {
         alert("Login Success");
         console.log("Success: ");
         console.log(responseData.data)
+        createCookie(responseData.data.userId,formData.email)
+        console.log(formData.email)
         // Store the coach's ID in state upon successful sign-in
-        setCoachId(responseData.data.coachId);
+        // setCoachId(responseData.data.coachId);
         navigate('/CoachBoard');
       } else {
         alert("Login Failed"); 

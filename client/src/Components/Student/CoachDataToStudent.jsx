@@ -1,9 +1,11 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Container, Text, Stack, Avatar, Icon, Box, Button, Flex } from '@chakra-ui/react';
-import { Heading, Link, HStack, Image, Skeleton, useColorModeValue } from '@chakra-ui/react';
+import { Container, Text, Stack, Box, Button, Flex, Card, CardBody, CardFooter,Icon,Avatar } from '@chakra-ui/react';
+import { Heading, Image, Skeleton, useColorModeValue } from '@chakra-ui/react';
 import { ImQuotesLeft } from 'react-icons/im';
+import TimeSlots from './TimeSlots';
+import { useContext } from 'react';
+import { AppContext } from './ParentContext';
 
-// Define the new component
 const NewComponent = ({ onClose }) => (
   <Container
     maxW="5xl"
@@ -20,41 +22,12 @@ const NewComponent = ({ onClose }) => (
     backdropFilter="blur(8px)"
     marginLeft={"10vw"}
   >
-    <Button bg='green' onClick={onClose} position="absolute" top="1rem" right="1rem">
-      Close
-    </Button>
-    <Stack direction={{ base: 'column-reverse', md: 'row' }}>
-      <Stack direction="column" spacing={6}>
-        <Heading
-          as="h3"
-          color={"black"}
-          size="lg"
-          fontWeight="bold"
-          textAlign="left"
-          maxW={{ base: '100%', md: '480px' }}
-        >
-          Customer dashboard
-        </Heading>
-        <Text
-          color={"black"}
-          fontSize="1.2rem"
-          textAlign="left"
-          lineHeight="1.375"
-          fontWeight="300"
-          maxW={{ base: '100%', md: '470px' }}
-        >
-          View a summary of all your customers over the last month.
-        </Text>
-        <Box color={"black"}>
-          {/* Add details here if needed */}
-        </Box>
-        <Button colorScheme='blue'>View here</Button>
-      </Stack>
-    </Stack>
+    <TimeSlots></TimeSlots>
   </Container>
 );
 
 const CoachDataToStudent = () => {
+  const { userId,setUserId} = useContext(AppContext);
   const [testimonials, setTestimonials] = useState([]);
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
   const [showSecondContainer, setShowSecondContainer] = useState(false);
@@ -69,7 +42,6 @@ const CoachDataToStudent = () => {
         }
         const data = await response.json();
         setTestimonials(data.data);
-        console.log("data: ", data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -89,7 +61,13 @@ const CoachDataToStudent = () => {
   };
 
   const handleGetCoachingClick = () => {
-    setShowNewComponent(true);
+    
+    const cookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('slotBooking='));
+    if (cookie) {
+      alert('You have already booked a slot!');
+    } else {
+      setShowNewComponent(true);
+    }
   };
 
   const handleNewComponentClose = () => {
@@ -108,7 +86,6 @@ const CoachDataToStudent = () => {
               spacing={{ base: 0, sm: 10 }}
               p={{ base: 4, sm: 10 }}
               rounded="lg"
-     
               justifyContent="center"
             >
               <Box width="30rem" pos="relative" d={{ base: 'none', sm: 'block' }}>
@@ -143,7 +120,7 @@ const CoachDataToStudent = () => {
                       src={obj.photo}
                       d={{ base: 'block', sm: 'none' }}
                     />
-                    <Button onClick={() => handleKnowMoreClick(obj)} marginLeft={'10vw'} colorScheme="green">
+                    <Button onClick={() => {handleKnowMoreClick(obj),setUserId(obj._id)}} marginLeft={'10vw'} colorScheme="green">
                       Know More
                     </Button>
                   </Flex>
@@ -225,7 +202,6 @@ const CoachDataToStudent = () => {
         </Container>
       )}
 
-      {/* Conditional rendering of the new component */}
       {showNewComponent && (
         <NewComponent onClose={handleNewComponentClose} />
       )}
