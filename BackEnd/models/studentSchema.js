@@ -66,6 +66,11 @@ const studentSchema = new mongoose.Schema({
     type: String,
  
   },
+  SlotBooked: {
+    type: Boolean,
+    default:false,
+ 
+  },
 });
 
 const StudentModel = mongoose.model("Student", studentSchema);
