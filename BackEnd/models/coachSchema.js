@@ -29,15 +29,13 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
-  
   role: {
     type: String,
     // required: true
   },
-
   email: {
     type: String,
-    unique:true
+    unique: true
     // required: true
   },
   phone: {
@@ -64,10 +62,6 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
-  country: {
-    type: String,
-    // required: true
-  },
   photo: {
     type: String,
     // required: true
@@ -80,8 +74,8 @@ const coachSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
-  description:{
-    type:String,
+  description: {
+    type: String,
   },
   roleOfCoaching: {
     type: String,
@@ -105,11 +99,16 @@ const coachSchema = new mongoose.Schema({
   },
   availableTime: {
     type: Array,
-    default:[]
+    default: []
     // required: true
+  },
+  CoachID:{
+    type:Array,
+    default:[]
   }
 });
 
 const CoachModel = mongoose.model("Coach", coachSchema);
+const ApplicationsForCoach = mongoose.model("applicationsForCoach", coachSchema);
 
-export default CoachModel;
+export { CoachModel, ApplicationsForCoach };

@@ -42,12 +42,23 @@ const TimeSlots = ({ onClose }) => {
     fetchData();
   }, [userId]); // Include userId in the dependency array
 
+
+  const cookies = document.cookie.split("; ");
+  let clusterId;
+  cookies.forEach((cookie) => {
+    const [name, value] = cookie.split("=");
+    if (name === "uid") {
+      clusterId = value;
+    }
+  });
+
   const bookSlot = async (times) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5001/sliceTime/${userId}`,
+        `http://localhost:5001/sliceTime/${userId}/${clusterId}`,
         times
       );
+      console.log("response: ", response);
       console.log("res",response);
     } catch (error) {
       console.error("Error booking slot:", error);

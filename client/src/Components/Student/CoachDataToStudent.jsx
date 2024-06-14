@@ -1,9 +1,8 @@
-import { Fragment, useEffect, useState } from 'react';
-import { Container, Text, Stack, Box, Button, Flex, Card, CardBody, CardFooter,Icon,Avatar } from '@chakra-ui/react';
-import { Heading, Image, Skeleton, useColorModeValue } from '@chakra-ui/react';
+import { Fragment, useEffect, useState, useContext } from 'react';
+import { Container, Text, Stack, Box, Button, Flex, Avatar, Heading, Image, Skeleton, Icon } from '@chakra-ui/react';
 import { ImQuotesLeft } from 'react-icons/im';
+import Cookies from 'js-cookie';
 import TimeSlots from './TimeSlots';
-import { useContext } from 'react';
 import { AppContext } from './ParentContext';
 
 const NewComponent = ({ onClose }) => (
@@ -22,25 +21,32 @@ const NewComponent = ({ onClose }) => (
     backdropFilter="blur(8px)"
     marginLeft={"10vw"}
   >
-    <TimeSlots></TimeSlots>
+    <TimeSlots />
   </Container>
 );
 
 const CoachDataToStudent = () => {
-  const { userId,setUserId} = useContext(AppContext);
+  const { userId, setUserId } = useContext(AppContext);
   const [testimonials, setTestimonials] = useState([]);
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
   const [showSecondContainer, setShowSecondContainer] = useState(false);
-  const [showNewComponent, setShowNewComponent] = useState(false); 
+  const [showNewComponent, setShowNewComponent] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('https://capstone-admin-crick-elevate.vercel.app/getCoach');
+
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
+        console.log('Fetched Coach Data:', data);
+
+        // Extract coach IDs and store them in cookies as an array
+        const coachIds = data.data.map(coach => coach._id);
+        Cookies.set('coachIds', JSON.stringify(coachIds), { expires: 7 });
+
         setTestimonials(data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -61,7 +67,6 @@ const CoachDataToStudent = () => {
   };
 
   const handleGetCoachingClick = () => {
-    
     const cookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('slotBooking='));
     if (cookie) {
       alert('You have already booked a slot!');
@@ -120,7 +125,7 @@ const CoachDataToStudent = () => {
                       src={obj.photo}
                       d={{ base: 'block', sm: 'none' }}
                     />
-                    <Button onClick={() => {handleKnowMoreClick(obj),setUserId(obj._id)}} marginLeft={'10vw'} colorScheme="green">
+                    <Button onClick={() => { handleKnowMoreClick(obj); setUserId(obj._id); }} marginLeft={'10vw'} colorScheme="green">
                       Know More
                     </Button>
                   </Flex>
