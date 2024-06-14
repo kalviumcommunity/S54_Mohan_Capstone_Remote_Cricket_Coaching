@@ -58,6 +58,7 @@ const TimeSlots = ({ onClose }) => {
         `http://localhost:5001/sliceTime/${userId}/${clusterId}`,
         times
       );
+      console.log("response: ", response);
       console.log("res",response);
     } catch (error) {
       console.error("Error booking slot:", error);
