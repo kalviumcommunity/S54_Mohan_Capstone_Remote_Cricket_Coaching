@@ -13,13 +13,15 @@ import CoachBoard from '../src/Components/Coach/CoachBoard';
 
 import TimeSlots from './Components/Student/TimeSlots';
 import BookingSuccess from './Components/Student/BookingSuccess';
+import HomePage from './Components/HomePage';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/CoachBoard" element={<ChakraProvider><CoachBoard/></ChakraProvider>} />  
-        <Route path="/" element={<ChakraProvider><Navigation /></ChakraProvider>} />
+        <Route path="/Navigation" element={<ChakraProvider><Navigation /></ChakraProvider>} />
+        <Route path="/" element={<ChakraProvider><HomePage /></ChakraProvider>} />
         <Route path="/StudentSignUp" element={<ChakraProvider><StudentSignUp /></ChakraProvider>} />
         <Route path="/StudentSignIn" element={<ChakraProvider><StudentSignIn /></ChakraProvider>} />
         <Route path="/CoachSignUp" element={<ChakraProvider><CoachSignUp /></ChakraProvider>} />
