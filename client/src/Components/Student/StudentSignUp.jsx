@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 // import form from "../assets/form.jpg";
 import sideman from '../../assets/sideman.jpg';
 // import sideicon from '../assets/sideicon.jpg';
@@ -30,7 +30,7 @@ const StudentSignIn = () => {
   
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate=useNavigate();
-  const url="https://cric-elevate.vercel.app/createUser"
+  // const url="https://cric-elevate.vercel.app/createUser"
 
   const [imageSelected,setImageSelected]=useState("")
 
@@ -38,21 +38,21 @@ const StudentSignIn = () => {
   
 
 
-  const uploadImage = async () => {
-    const formData = new FormData();
-    formData.append('file', imageSelected);
-    formData.append('upload_preset', 'images_preset');
+  // const uploadImage = async () => {
+  //   const formData = new FormData();
+  //   formData.append('file', imageSelected);
+  //   formData.append('upload_preset', 'images_preset');
 
-    try {
-      const response = await axios.post(
-        'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
-        formData
-      );
-      console.log('response: ', response);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
-  };
+  //   try {
+  //     const response = await axios.post(
+  //       'https://api.cloudinary.com/v1_1/dmrw31an8/image/upload',
+  //       formData
+  //     );
+  //     console.log('response: ', response);
+  //   } catch (error) {
+  //     console.error('Error uploading image:', error);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,11 +1,23 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
-import { Container, Text, Stack, Box, Button, Flex, Avatar, Heading, Image, Skeleton, Icon } from '@chakra-ui/react';
-import { ImQuotesLeft } from 'react-icons/im';
-import Cookies from 'js-cookie';
-import TimeSlots from './TimeSlots';
-import { AppContext } from './ParentContext';
+import { Fragment, useEffect, useState, useContext } from "react";
+import {
+  Container,
+  Text,
+  Stack,
+  Box,
+  Button,
+  Flex,
+  Avatar,
+  Heading,
+  Image,
+  Skeleton,
+  Icon,
+} from "@chakra-ui/react";
+import { ImQuotesLeft } from "react-icons/im";
+import Cookies from "js-cookie";
+import TimeSlots from "./TimeSlots";
+import { AppContext } from "./ParentContext";
 
-const NewComponent = ({ onClose }) => (
+const NewComponent = () => (
   <Container
     maxW="5xl"
     px={{ base: 6, md: 3 }}
@@ -19,37 +31,41 @@ const NewComponent = ({ onClose }) => (
     height="100%"
     overflowY="auto"
     backdropFilter="blur(8px)"
-    marginLeft={"10vw"}
+    marginLeft="10vw"
   >
     <TimeSlots />
   </Container>
 );
 
 const CoachDataToStudent = () => {
-  const { userId, setUserId } = useContext(AppContext);
+  const { setUserId } = useContext(AppContext);
   const [testimonials, setTestimonials] = useState([]);
   const [selectedTestimonial, setSelectedTestimonial] = useState(null);
   const [showSecondContainer, setShowSecondContainer] = useState(false);
   const [showNewComponent, setShowNewComponent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://capstone-admin-crick-elevate.vercel.app/getCoach');
+        const response = await fetch(
+          "https://capstone-admin-crick-elevate.vercel.app/getCoach"
+        );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log('Fetched Coach Data:', data);
+        console.log("Fetched Coach Data:", data);
 
         // Extract coach IDs and store them in cookies as an array
-        const coachIds = data.data.map(coach => coach._id);
-        Cookies.set('coachIds', JSON.stringify(coachIds), { expires: 7 });
+        const coachIds = data.data.map((coach) => coach._id);
+        Cookies.set("coachIds", JSON.stringify(coachIds), { expires: 7 });
 
         setTestimonials(data.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
+        setErrorMessage("Failed to fetch coach data.");
       }
     };
 
@@ -59,6 +75,7 @@ const CoachDataToStudent = () => {
   const handleKnowMoreClick = (testimonial) => {
     setSelectedTestimonial(testimonial);
     setShowSecondContainer(true);
+    setUserId(testimonial._id);
   };
 
   const handleCloseClick = () => {
@@ -67,9 +84,9 @@ const CoachDataToStudent = () => {
   };
 
   const handleGetCoachingClick = () => {
-    const cookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('slotBooking='));
-    if (cookie) {
-      alert('You have already booked a slot!');
+    const slotBooking = Cookies.get("slotBooking");
+    if (slotBooking) {
+      alert("You have already booked a slot!");
     } else {
       setShowNewComponent(true);
     }
@@ -82,24 +99,29 @@ const CoachDataToStudent = () => {
   return (
     <>
       <Container maxW="5xl" p={{ base: 5, md: 8 }}>
+        {errorMessage && <Text color="red.500">{errorMessage}</Text>}
         {testimonials.map((obj, index) => (
           <Fragment key={index}>
             <Stack
-              mb={'20vh'}
-              direction={{ base: 'column', sm: 'row' }}
+              mb="20vh"
+              direction={{ base: "column", sm: "row" }}
               bgGradient="linear(to-br, #42e14e, blue.300)"
               spacing={{ base: 0, sm: 10 }}
               p={{ base: 4, sm: 10 }}
               rounded="lg"
               justifyContent="center"
             >
-              <Box width="30rem" pos="relative" d={{ base: 'none', sm: 'block' }}>
+              <Box
+                width="30rem"
+                pos="relative"
+                d={{ base: "none", sm: "block" }}
+              >
                 <Image
-                  h={"100%"}
-                  w={"100%"}
-                  objectFit={"cover"}
-                  borderRadius={"50%"}
-                  objectPosition={"center"}
+                  h="100%"
+                  w="100%"
+                  objectFit="cover"
+                  borderRadius="50%"
+                  objectPosition="center"
                   pos="absolute"
                   rounded="lg"
                   src={obj.photo}
@@ -116,16 +138,26 @@ const CoachDataToStudent = () => {
                 <Text fontWeight="medium" fontSize="sm" color="gray.600">
                   {obj.description}
                 </Text>
-                <Stack alignItems={{ base: 'center', sm: 'flex-start' }} spacing={0}>
-                  <Flex paddingTop={'5vh'}>
+                <Stack
+                  alignItems={{ base: "center", sm: "flex-start" }}
+                  spacing={0}
+                >
+                  <Flex paddingTop="5vh">
                     <Avatar
                       showBorder={true}
                       borderColor="green.400"
                       name="avatar"
                       src={obj.photo}
-                      d={{ base: 'block', sm: 'none' }}
+                      d={{ base: "block", sm: "none" }}
                     />
-                    <Button onClick={() => { handleKnowMoreClick(obj); setUserId(obj._id); }} marginLeft={'10vw'} colorScheme="green">
+                    <Button
+                      onClick={() => {
+                        handleKnowMoreClick(obj);
+                      }}
+                      marginLeft="10vw"
+                      colorScheme="green"
+                      aria-label="Know more about the coach"
+                    >
                       Know More
                     </Button>
                   </Flex>
@@ -150,34 +182,41 @@ const CoachDataToStudent = () => {
           height="100%"
           overflowY="auto"
           backdropFilter="blur(8px)"
-          marginLeft={"10vw"}
+          marginLeft="10vw"
         >
-          <Button bg='green' onClick={handleCloseClick} position="absolute" top="1rem" right="1rem">
+          <Button
+            bg="green"
+            onClick={handleCloseClick}
+            position="absolute"
+            top="1rem"
+            right="1rem"
+            aria-label="Close details"
+          >
             Close
           </Button>
-          <Stack direction={{ base: 'column-reverse', md: 'row' }}>
+          <Stack direction={{ base: "column-reverse", md: "row" }}>
             <Stack direction="column" spacing={6}>
               <Heading
                 as="h3"
-                color={"black"}
+                color="black"
                 size="lg"
                 fontWeight="bold"
                 textAlign="left"
-                maxW={{ base: '100%', md: '480px' }}
+                maxW={{ base: "100%", md: "480px" }}
               >
                 {selectedTestimonial.firstName} {selectedTestimonial.lastName}
               </Heading>
               <Text
-                color={"black"}
+                color="black"
                 fontSize="1.2rem"
                 textAlign="left"
                 lineHeight="1.375"
                 fontWeight="300"
-                maxW={{ base: '100%', md: '470px' }}
+                maxW={{ base: "100%", md: "470px" }}
               >
                 {selectedTestimonial.description}
               </Text>
-              <Box color={"black"}>
+              <Box color="black">
                 <Text>Email: {selectedTestimonial.email}</Text>
                 <Text>Phone: {selectedTestimonial.phone}</Text>
                 <Text>Gender: {selectedTestimonial.gender}</Text>
@@ -187,29 +226,37 @@ const CoachDataToStudent = () => {
                 <Text>Address: {selectedTestimonial.address}</Text>
                 <Text>Role: {selectedTestimonial.role}</Text>
                 <Text>Am I Online: {selectedTestimonial.amionline}</Text>
-                <Text>Highest Level Played: {selectedTestimonial.highestLevelPlayed}</Text>
+                <Text>
+                  Highest Level Played: {selectedTestimonial.highestLevelPlayed}
+                </Text>
               </Box>
             </Stack>
-            <Box width={'40vw'} ml={{ base: 0, md: 5 }}>
+            <Box width="40vw" ml={{ base: 0, md: 5 }}>
               <Image
                 w="30%"
                 h="60%"
-                minW={{ base: 'auto', md: '30rem' }}
+                minW={{ base: "auto", md: "30rem" }}
                 objectFit="cover"
-                mt={"5vh"}
+                mt="5vh"
                 src={selectedTestimonial.photo}
                 rounded="md"
                 fallback={<Skeleton />}
               />
-              <Button mt={"10vh"} marginLeft={"10vw"} colorScheme='blue' onClick={handleGetCoachingClick}>Get Coaching</Button>
+              <Button
+                mt="10vh"
+                marginLeft="10vw"
+                colorScheme="blue"
+                onClick={handleGetCoachingClick}
+                aria-label="Book a coaching slot"
+              >
+                Get Coaching
+              </Button>
             </Box>
           </Stack>
         </Container>
       )}
 
-      {showNewComponent && (
-        <NewComponent onClose={handleNewComponentClose} />
-      )}
+      {showNewComponent && <NewComponent onClose={handleNewComponentClose} />}
     </>
   );
 };

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import sideman from "../../assets/sideman.jpg";
 import axios from "axios";
 import {
   Container,
-  RadioGroup,
+  
   FormControl,
   FormLabel,
   Box,
-  Radio,
+  
   Input,
   Stack,
   Button,
@@ -27,10 +27,10 @@ const CoachSignIn = () => {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage] = useState("");
   const [imageSelected, setImageSelected] = useState("");
   const navigate = useNavigate();
-  const url = "http://localhost:3001/createCoach";
+  // const url = "http://localhost:3001/createCoach";
 
   const handleClick = () => setShow(!show);
 
@@ -51,7 +51,6 @@ const CoachSignIn = () => {
         formData
       );
       const imageUrl = response.data.secure_url;
-
 
       // Prepare form data to be sent to the database
       const formDataDB = {
@@ -75,7 +74,7 @@ const CoachSignIn = () => {
         detailedDescription: e.target.detailedDescription.value,
         fee: e.target.fee.value,
       };
-        
+
       // Send form data to the database
       const userData = await axios.post(
         "http://localhost:3001/createCoach",
@@ -90,45 +89,6 @@ const CoachSignIn = () => {
         navigate("CoachSubmitSuccess");
         console.log(userData.data);
       }
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
     } catch (error) {
       console.error("Error:", error);
     }
@@ -208,7 +168,6 @@ const CoachSignIn = () => {
                   <Input rounded="md" type="text" />
                 </FormControl>
 
-
                 <FormControl id="highestLevelPlayed">
                   <FormLabel>highest Level Played</FormLabel>
                   <Input rounded="md" type="text" />
@@ -219,10 +178,8 @@ const CoachSignIn = () => {
                   <Select placeholder="Are you online or not ?">
                     <option value="Yes">Yes</option>
                     <option value="No">No </option>
-                 
                   </Select>
                 </FormControl>
-
 
                 <FormControl id="gender">
                   <FormLabel>Gender</FormLabel>
@@ -230,7 +187,6 @@ const CoachSignIn = () => {
                     <option value="Male">Male</option>
                     <option value="Female">Female </option>
                     <option value="Neither">Neither </option>
-                 
                   </Select>
                 </FormControl>
 
@@ -286,7 +242,7 @@ const CoachSignIn = () => {
                 <FormControl id="description">
                   <FormLabel>Description</FormLabel>
                   <Input
-                  placeholder="give a description about yourself and Your coaching style"
+                    placeholder="give a description about yourself and Your coaching style"
                     rounded="md"
                     type="text"
                     width={"45vw"}
@@ -295,11 +251,7 @@ const CoachSignIn = () => {
                 </FormControl>
                 <FormControl id="fee">
                   <FormLabel>Fee Per Month :</FormLabel>
-                  <Input
-                    rounded="md"
-                    type="number"
-                 
-                  />
+                  <Input rounded="md" type="number" />
                 </FormControl>
                 <FormControl id="detailedDescription">
                   <FormLabel>Detailed Description For students :</FormLabel>
