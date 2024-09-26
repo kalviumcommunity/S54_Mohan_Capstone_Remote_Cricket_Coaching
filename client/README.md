@@ -9,3 +9,6 @@ Currently, two official plugins are available:
 
 
 backend server deployment link = "https://cric-elevate.vercel.app​"
+
+
+frontend server deployed link = "https://client-neon-eight.vercel.app/"
